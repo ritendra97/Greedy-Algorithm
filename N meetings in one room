@@ -1,0 +1,63 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+class meetings {
+
+	int start;
+	int end;
+	int pos;
+
+	meetings(int start, int end, int pos) {
+		this.start = start;
+		this.end = end;
+		this.pos = pos;
+	}
+
+}
+
+public class Main4 {
+
+	public static void maxmetings(ArrayList<meetings> allmeetings) {
+		
+		Collections.sort(allmeetings, new Comparator<meetings>() {
+			
+			public int compare(meetings m1, meetings m2) {
+				if(m1.end<m2.end) {
+					return -1;
+				}else if(m1.end>m2.end) {
+					return 1;
+				}else {
+					if(m1.pos<m2.pos)return -1;
+				}
+				
+				return 1;
+			}
+		});
+		
+		ArrayList<Integer> answer = new ArrayList<>();
+		answer.add(allmeetings.get(0).pos);
+		int limit = allmeetings.get(0).end;
+		
+		for(int i = 1;i<allmeetings.size();i++) {
+			if(allmeetings.get(i).start>limit) {
+				limit = allmeetings.get(i).end;
+				answer.add(allmeetings.get(i).pos);
+			}
+		}
+		
+		answer.forEach(System.out::println);
+	}
+
+	public static void main(String[] args) {
+
+		ArrayList<meetings> allmeetings = new ArrayList<>();
+		allmeetings.add(new meetings(1, 2, 0));
+		allmeetings.add(new meetings(3, 4, 1));
+		allmeetings.add(new meetings(0, 6, 3));
+		allmeetings.add(new meetings(5, 7, 4));
+		allmeetings.add(new meetings(8, 9, 5));
+		allmeetings.add(new meetings(5, 9, 6));
+		maxmetings(allmeetings);
+	}
+}
